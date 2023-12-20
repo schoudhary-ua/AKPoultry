@@ -41,10 +41,19 @@
                 const apiUrl = 'https://www.e2necc.com/home/eggprice';
 
                 const response = await fetch(proxyUrl + apiUrl);
-                const data = await response.json();
-
-                // Update the DOM with the fetched data
-                document.getElementById('eggPrices').innerHTML = `<p>Latest Egg Prices: ${JSON.stringify(data)}</p>`;
+                
+                // Check the content type
+                const contentType = response.headers.get('content-type');
+                
+                if (contentType && contentType.includes('application/json')) {
+                    // If the content type is JSON, parse and display data
+                    const data = await response.json();
+                    document.getElementById('eggPrices').innerHTML = `<p>Latest Egg Prices: ${JSON.stringify(data)}</p>`;
+                } else {
+                    // If the content type is not JSON, handle accordingly
+                    const htmlContent = await response.text();
+                    document.getElementById('eggPrices').innerHTML = `<p>Unable to fetch egg prices. Received HTML content: ${htmlContent}</p>`;
+                }
             } catch (error) {
                 console.error('Error fetching egg prices:', error);
             }

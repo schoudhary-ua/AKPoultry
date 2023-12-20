@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Poultry Works</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            line-height: 1.6;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>How Poultry Works</h1>
+
+    <p>Poultry farming involves the breeding and raising of domesticated birds...</p>
+
+    <h2>Latest Egg Prices</h2>
+    <div id="eggPrices"></div>
+
+    <script>
+        // Function to make an API call and update the DOM with the data
+        async function fetchEggPrices() {
+            try {
+                // Use a proxy server to fetch data due to CORS restrictions
+                const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+                const apiUrl = 'https://www.e2necc.com/home/eggprice';
+
+                const response = await fetch(proxyUrl + apiUrl);
+                const data = await response.json();
+
+                // Update the DOM with the fetched data
+                document.getElementById('eggPrices').innerHTML = `<p>Latest Egg Prices: ${JSON.stringify(data)}</p>`;
+            } catch (error) {
+                console.error('Error fetching egg prices:', error);
+            }
+        }
+
+        // Call the function to fetch and display egg prices
+        fetchEggPrices();
+    </script>
+
+</body>
+
+</html>
